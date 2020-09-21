@@ -11,7 +11,7 @@ import 'package:flutter_qiniucloud_live_plugin/enums/qiniucloud_camera_type_enum
 import 'package:flutter_qiniucloud_live_plugin/enums/qiniucloud_push_listener_type_enum.dart';
 import 'package:flutter_qiniucloud_live_plugin/view/qiniucloud_push_view.dart';
 
-/// 连麦视图控制器
+/// 视图控制器
 class QiniucloudPushViewController {
   QiniucloudPushViewController(int id)
       : _channel = new MethodChannel('${QiniucloudPushViewState.type}_$id');
@@ -64,24 +64,6 @@ class QiniucloudPushViewController {
   /// 停止推流
   Future<bool> stopStreaming() async {
     return await _channel.invokeMethod('stopStreaming');
-  }
-
-  /// 开始连麦
-  Future<void> startConference({
-    @required userId, // 用户ID
-    @required roomName, //房间名
-    @required roomToken, //房间token
-  }) async {
-    return await _channel.invokeMethod('startConference', {
-      "userId": userId,
-      "roomName": roomName,
-      "roomToken": roomToken,
-    });
-  }
-
-  /// 停止连麦
-  Future<bool> stopConference() async {
-    return await _channel.invokeMethod('stopConference');
   }
 
   /// 是否支持缩放
@@ -175,67 +157,12 @@ class QiniucloudPushViewController {
     return await _channel.invokeMethod('stopPlayback');
   }
 
-  /// 根据用户ID踢出连麦
-  Future<void> kickoutUser({
-    @required String userId,
-  }) async {
-    return await _channel.invokeMethod('kickoutUser', {
-      "userId": userId,
-    });
-  }
-
-  /// 设置连麦参数
-  Future<bool> setConferenceOptions({
-    @required ConferenceOptionsEntity conferenceOptions,
-  }) async {
-    return await _channel.invokeMethod('setConferenceOptions', {
-      "conferenceOptions": conferenceOptions,
-    });
-  }
-
   /// 更新推流参数
   Future<void> setStreamingProfile({
     @required StreamingProfileEntity streamingProfile,
   }) async {
     return await _channel.invokeMethod('setStreamingProfile', {
       "streamingProfile": streamingProfile,
-    });
-  }
-
-  /// 获得参与连麦的人数(不包括自己)
-  Future<int> getParticipantsCount() async {
-    return await _channel.invokeMethod('getParticipantsCount');
-  }
-
-  /// 获取参与连麦的用户ID列表，不包括自己
-  Future<List> getParticipants() async {
-    return jsonDecode(await _channel.invokeMethod('getParticipants'));
-  }
-
-  /// 添加远程视图
-  Future<void> addRemoteWindow({
-    id, // 视图ID
-  }) async {
-    return await _channel.invokeMethod('addRemoteWindow', {"id": id});
-  }
-
-  /// 获取编码器输出的画面的高宽
-  Future<Map> getVideoEncodingSize() async {
-    return jsonDecode(await _channel.invokeMethod('getVideoEncodingSize'));
-  }
-
-  /// 自定义视频窗口位置(连麦推流模式下有效)
-  Future<void> setLocalWindowPosition({
-    @required int x,
-    @required int y,
-    @required int w,
-    @required int h,
-  }) async {
-    return await _channel.invokeMethod('setLocalWindowPosition', {
-      "x": x,
-      "y": y,
-      "w": w,
-      "h": h,
     });
   }
 }

@@ -6,9 +6,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.alibaba.fastjson.JSON;
-import com.qiniu.pili.droid.rtcstreaming.RTCConferenceState;
-import com.qiniu.pili.droid.rtcstreaming.RTCConferenceStateChangedListener;
-import com.qiniu.pili.droid.rtcstreaming.RTCUserEventListener;
 import com.qiniu.pili.droid.streaming.AudioSourceCallback;
 import com.qiniu.pili.droid.streaming.StreamStatusCallback;
 import com.qiniu.pili.droid.streaming.StreamingProfile;
@@ -29,7 +26,7 @@ import top.huic.flutter_qiniucloud_live_plugin.enums.PushCallBackNoticeEnum;
  *
  * @author 蒋具宏
  */
-public class QiniuicloudPushListener implements RTCConferenceStateChangedListener, StreamingSessionListener, StreamingStateChangedListener, RTCUserEventListener, StreamStatusCallback, AudioSourceCallback {
+public class QiniuicloudPushListener implements  StreamingSessionListener, StreamingStateChangedListener, StreamStatusCallback, AudioSourceCallback {
 
     /**
      * 日志标签
@@ -76,23 +73,6 @@ public class QiniuicloudPushListener implements RTCConferenceStateChangedListene
         });
     }
 
-    @Override
-    public void onConferenceStateChanged(RTCConferenceState rtcConferenceState, int i) {
-        Map<String, Object> params = new HashMap<>(2, 1);
-        params.put("status", rtcConferenceState);
-        params.put("extra", i);
-        invokeListener(PushCallBackNoticeEnum.ConferenceStateChanged, params);
-    }
-
-    @Override
-    public void onUserJoinConference(String s) {
-        invokeListener(PushCallBackNoticeEnum.UserJoinConference, s);
-    }
-
-    @Override
-    public void onUserLeaveConference(String s) {
-        invokeListener(PushCallBackNoticeEnum.UserLeaveConference, s);
-    }
 
     @Override
     public boolean onRecordAudioFailedHandled(int i) {
